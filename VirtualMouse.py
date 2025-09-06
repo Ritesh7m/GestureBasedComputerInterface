@@ -3,6 +3,7 @@ import mediapipe as mp
 import pyautogui
 import os
 import time
+from datetime import datetime   # ✅ Import for human-readable timestamps
 
 # Mediapipe hands initialization
 mp_drawing = mp.solutions.drawing_utils
@@ -51,7 +52,6 @@ with mp_hands.Hands(
                     landmarks.append((int(lm.x * w), int(lm.y * h)))
 
                 # Example gesture: Index & middle finger up (V gesture)
-                # We check y-position of tips relative to PIP joints
                 index_tip = landmarks[8][1] < landmarks[6][1]
                 middle_tip = landmarks[12][1] < landmarks[10][1]
                 ring_tip = landmarks[16][1] > landmarks[14][1]  # ring finger down
@@ -61,15 +61,20 @@ with mp_hands.Hands(
                     current_time = time.time()
                     if current_time - prev_click_time > screenshot_cooldown:
                         prev_click_time = current_time
-                        filename = f"screenshots/screenshot_{int(time.time())}.png"
+                        
+                        # ✅ Human-readable timestamp (YYYY-MM-DD_HH-MM-SS)
+                        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+                        filename = f"screenshots/screenshot_{timestamp}.png"
+                        
                         pyautogui.screenshot(filename)
                         print(f"📸 Screenshot saved as {filename}")
 
         # Display the image
         cv2.imshow('Virtual Mouse with Screenshot Gesture', image)
 
-        if cv2.waitKey(5) & 0xFF == 27:
+        if cv2.waitKey(5) & 0xFF == 27:  # ESC to exit
             break
 
 cap.release()
 cv2.destroyAllWindows()
+
