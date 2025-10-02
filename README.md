@@ -93,9 +93,6 @@ This project provides a suite of applications leveraging hand gesture recognitio
 └── README.md              # This file
 ```
 
-📸 **Screenshots**
-
-(Space for screenshots of the GUI, virtual mouse in action, and PowerPoint control)
 
 🤝 **Contributing**
 
